@@ -1,0 +1,355 @@
+{% extends "layout.html" %}
+
+{% block title %}Viewing {{ filename }} - SafeTensor Model Viewer{% endblock %}
+
+{% block extra_css %}
+<style>
+    #graph-container {
+        width: 100%;
+        height: 600px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .node {
+        cursor: pointer;
+    }
+
+    .node circle {
+        stroke: #fff;
+        stroke-width: 1.5px;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+    }
+
+    /* Style for index 0 nodes - make them slightly larger and with a thicker border */
+    .node[id$=".0.weight"] circle,
+    .node[id$=".0.query.weight"] circle,
+    .node[id$=".0.self.query.weight"] circle,
+    .node[id$="layer0.weight"] circle,
+    .node[id$="conv1.weight"] circle,
+    .node[id$="fc1.weight"] circle,
+    .node[id$="linear1.weight"] circle,
+    .node[id$="bn1.weight"] circle,
+    .node[id$="embedding.weight"] circle {
+        r: 7;
+        stroke-width: 2px;
+        stroke: #ffcc00; /* Gold border to make them stand out */
+        filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.5));
+    }
+
+    .node:hover circle {
+        stroke: #fff;
+        stroke-width: 2px;
+        r: 8;
+        filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.6));
+    }
+
+    .node.selected circle {
+        stroke: #fff;
+        stroke-width: 2.5px;
+        r: 10;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8));
+    }
+
+    .node text {
+        font-size: 10px;
+        fill: #e0e0e0;
+        text-anchor: middle;
+        pointer-events: none;
+    }
+
+    .link {
+        fill: none;
+        stroke: #555;
+        stroke-width: 1.5px;
+        opacity: 0;  /* Hide all links by default */
+        transition: opacity 0.3s ease, stroke-width 0.3s ease;
+    }
+
+    /* Style for visible connections */
+    .link.visible {
+        opacity: 0.7;
+        stroke: #4285f4;  /* Blue color for visible connections */
+    }
+
+    .tooltip {
+        position: absolute;
+        padding: 10px;
+        background-color: rgba(30, 30, 30, 0.9);
+        color: #e0e0e0;
+        border-radius: 5px;
+        pointer-events: none;
+        font-size: 12px;
+        z-index: 1000;
+        max-width: 300px;
+        border: 1px solid #555;
+    }
+
+    .controls {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(30, 30, 30, 0.7);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #555;
+    }
+
+    .controls button {
+        margin: 2px;
+    }
+
+    #tensor-details {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    .tensor-property {
+        margin-bottom: 10px;
+    }
+
+    .tensor-property .property-name {
+        font-weight: bold;
+        color: #aaa;
+    }
+
+    .tensor-property .property-value {
+        font-family: monospace;
+        word-break: break-all;
+    }
+
+    .search-container {
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    .search-container .fa-search {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        color: #6c757d;
+    }
+
+    .search-input {
+        padding-left: 40px;
+    }
+
+    .layer-label {
+        font-size: 14px;
+        font-weight: bold;
+        pointer-events: none;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .group-node {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .group-node:hover {
+        filter: brightness(1.2);
+    }
+
+    .group-icon {
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .node.selected .group-node {
+        stroke: #fff;
+        stroke-width: 3px;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8));
+    }
+
+    /* Animation for first parameter nodes */
+    @keyframes pulse {
+        0% { stroke-width: 2px; filter: drop-shadow(0 2px 3px rgba(255, 204, 0, 0.4)); }
+        50% { stroke-width: 3px; filter: drop-shadow(0 3px 5px rgba(255, 204, 0, 0.7)); }
+        100% { stroke-width: 2px; filter: drop-shadow(0 2px 3px rgba(255, 204, 0, 0.4)); }
+    }
+
+    .first-parameter {
+        animation: pulse 2s infinite ease-in-out;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card bg-dark border-secondary mb-4">
+    <div class="card-header bg-dark d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">
+            <i class="fas fa-project-diagram me-2"></i>
+            Model: {{ filename }}
+        </h2>
+        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back to Models
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card bg-dark border-secondary mb-3">
+                    <div class="card-header bg-dark d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0"><i class="fas fa-sitemap me-2"></i>Model Graph</h4>
+                        <div>
+                            <button id="toggle-layout" class="btn btn-sm btn-outline-primary me-2">
+                                <i class="fas fa-layer-group me-1"></i> Layer Layout
+                            </button>
+                            <button id="zoom-in" class="btn btn-sm btn-outline-light">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button id="zoom-out" class="btn btn-sm btn-outline-light">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                            <button id="reset-zoom" class="btn btn-sm btn-outline-light">
+                                <i class="fas fa-sync"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="graph-container"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="model-summary" class="mb-3">
+                    <!-- Model summary will be populated by JavaScript -->
+                </div>
+
+                <div class="card bg-dark border-secondary mb-3">
+                    <div class="card-header bg-dark">
+                        <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>Tensor Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="search-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" class="form-control bg-dark text-light border-secondary search-input" placeholder="Search tensors...">
+                        </div>
+                        <div id="tensor-details">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i> Click on a node in the graph to view tensor details.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-dark border-secondary">
+                    <div class="card-header bg-dark">
+                        <h4 class="mb-0"><i class="fas fa-palette me-2"></i>Layer Types</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #4285f4; margin-right: 8px;"></div>
+                                    <span>Convolution</span>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #0f9d58; margin-right: 8px;"></div>
+                                    <span>Linear</span>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #f4b400; margin-right: 8px;"></div>
+                                    <span>Batch Norm</span>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #db4437; margin-right: 8px;"></div>
+                                    <span>Embedding</span>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #9c27b0; margin-right: 8px;"></div>
+                                    <span>Recurrent</span>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #ff6d00; margin-right: 8px;"></div>
+                                    <span>Attention</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <h6 class="mb-2">Node Indicators</h6>
+                            <div class="d-flex align-items-center mb-2">
+                                <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #4285f4; border: 2px solid #ffcc00; margin-right: 8px;"></div>
+                                <span>First Parameter Node (connections always visible)</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div style="width: 15px; height: 15px; border-radius: 50%; background-color: #4285f4; border: 1px solid #fff; margin-right: 8px;"></div>
+                                <span>Regular Node (connections visible on hover)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("View model page loaded for file: {{ filename }}");
+
+        // Check if D3.js is loaded
+        if (typeof d3 === 'undefined') {
+            console.error("D3.js is not loaded!");
+            document.getElementById('graph-container').innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle me-2"></i> D3.js library is not loaded. Please check your internet connection.
+                </div>
+            `;
+            return;
+        }
+
+        console.log("D3.js is loaded, version:", d3.version);
+
+        // Initialize the graph visualization
+        console.log("Initializing graph for:", '{{ filename }}');
+        initGraph('{{ filename }}');
+
+        // Zoom controls
+        document.getElementById('zoom-in').addEventListener('click', function() {
+            console.log("Zoom in clicked");
+            zoomIn();
+        });
+
+        document.getElementById('zoom-out').addEventListener('click', function() {
+            console.log("Zoom out clicked");
+            zoomOut();
+        });
+
+        document.getElementById('reset-zoom').addEventListener('click', function() {
+            console.log("Reset zoom clicked");
+            resetZoom();
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            console.log("Searching for:", searchTerm);
+            searchNodes(searchTerm);
+        });
+
+        // Layout toggle functionality
+        document.getElementById('toggle-layout').addEventListener('click', function() {
+            console.log("Toggle layout clicked");
+            toggleLayout();
+        });
+    });
+</script>
+{% endblock %}

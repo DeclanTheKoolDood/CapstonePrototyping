@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}SafeTensor Model Viewer - Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card bg-dark border-secondary">
+            <div class="card-body text-center">
+                <h1 class="display-4 mb-4">SafeTensor Model Viewer</h1>
+                <p class="lead">A dark-themed visualization tool for PyTorch SafeTensor models.</p>
+                
+                <div class="row mt-5">
+                    <div class="col-md-6 mx-auto">
+                        <div class="card bg-dark border-primary mb-4">
+                            <div class="card-header bg-dark">
+                                <h3><i class="fas fa-upload me-2"></i>Upload Model</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" class="mb-3">
+                                    <div class="mb-3">
+                                        <label for="file" class="form-label">Select a SafeTensor file</label>
+                                        <input type="file" class="form-control bg-dark text-light border-secondary" id="file" name="file" accept=".safetensors">
+                                        <div class="form-text text-muted">Only .safetensors files are supported.</div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-upload me-1"></i> Upload
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if files %}
+                <div class="row mt-3">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card bg-dark border-success">
+                            <div class="card-header bg-dark">
+                                <h3><i class="fas fa-file-alt me-2"></i>Available Models</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group bg-dark">
+                                    {% for file in files %}
+                                    <a href="{{ url_for('view_model', filename=file) }}" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+                                        <i class="fas fa-file-code me-2"></i> {{ file }}
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="row mt-5">
+                    <div class="col-md-10 mx-auto">
+                        <div class="card bg-dark border-info">
+                            <div class="card-header bg-dark">
+                                <h3><i class="fas fa-info-circle me-2"></i>About</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>This tool allows you to visualize the structure of PyTorch models saved in the SafeTensor format. Features include:</p>
+                                <ul class="text-start">
+                                    <li>Interactive graph visualization of model layers</li>
+                                    <li>Hover over nodes to see tensor details</li>
+                                    <li>Click on nodes to view in-depth tensor statistics</li>
+                                    <li>Dark theme UI for comfortable viewing</li>
+                                </ul>
+                                <p class="mt-3">
+                                    <a href="https://github.com/huggingface/safetensors" target="_blank" class="btn btn-outline-info">
+                                        <i class="fab fa-github me-1"></i> Learn more about SafeTensors
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

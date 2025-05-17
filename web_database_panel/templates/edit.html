@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit Item - Database Panel{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card bg-dark border-secondary">
+            <div class="card-header bg-dark">
+                <h2 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Item</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('edit_item', id=item.id) }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" id="name" name="name" value="{{ item.name }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control bg-dark text-light border-secondary" id="description" name="description" rows="3">{{ item.description }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" id="category" name="category" value="{{ item.category }}" list="categoryOptions">
+                        <datalist id="categoryOptions">
+                            <option value="Electronics">
+                            <option value="Books">
+                            <option value="Clothing">
+                            <option value="Food">
+                            <option value="Other">
+                        </datalist>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('view_items') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Back to List
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Update Item
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}Home - Database Panel{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card bg-dark border-secondary">
+            <div class="card-body text-center">
+                <h1 class="display-4 mb-4">Welcome to Database Panel</h1>
+                <p class="lead">A sleek, dark-themed interface for managing your SQLite database.</p>
+                
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <div class="card bg-dark border-primary mb-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-table fa-3x text-primary mb-3"></i>
+                                <h3>View Data</h3>
+                                <p>Browse and search through your database records with ease.</p>
+                                <a href="{{ url_for('view_items') }}" class="btn btn-outline-primary mt-2">
+                                    <i class="fas fa-arrow-right me-1"></i> View Items
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card bg-dark border-success mb-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-plus-circle fa-3x text-success mb-3"></i>
+                                <h3>Add Data</h3>
+                                <p>Create new records in your database with our intuitive form.</p>
+                                <a href="{{ url_for('add_item') }}" class="btn btn-outline-success mt-2">
+                                    <i class="fas fa-plus me-1"></i> Add Item
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card bg-dark border-info mb-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-code fa-3x text-info mb-3"></i>
+                                <h3>API Access</h3>
+                                <p>Access your data programmatically through our simple REST API.</p>
+                                <a href="{{ url_for('api_get_items') }}" target="_blank" class="btn btn-outline-info mt-2">
+                                    <i class="fas fa-code me-1"></i> API Endpoint
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "layout.html" %}
+
+{% block title %}View Items - Database Panel{% endblock %}
+
+{% block extra_css %}
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+    .search-container {
+        position: relative;
+    }
+    .search-container .fa-search {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        color: #6c757d;
+    }
+    .search-input {
+        padding-left: 40px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card bg-dark border-secondary">
+    <div class="card-header bg-dark d-flex justify-content-between align-items-center">
+        <h2 class="mb-0"><i class="fas fa-table me-2"></i>Items Database</h2>
+        <a href="{{ url_for('add_item') }}" class="btn btn-success">
+            <i class="fas fa-plus-circle me-1"></i> Add New Item
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" class="form-control bg-dark text-light border-secondary search-input" placeholder="Search items...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select id="categoryFilter" class="form-select bg-dark text-light border-secondary">
+                    <option value="">All Categories</option>
+                    {% set categories = [] %}
+                    {% for item in items %}
+                        {% if item.category and item.category not in categories %}
+                            {% set _ = categories.append(item.category) %}
+                            <option value="{{ item.category }}">{{ item.category }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="sortOrder" class="form-select bg-dark text-light border-secondary">
+                    <option value="name_asc">Name (A-Z)</option>
+                    <option value="name_desc">Name (Z-A)</option>
+                    <option value="date_asc">Date (Oldest first)</option>
+                    <option value="date_desc">Date (Newest first)</option>
+                </select>
+            </div>
+        </div>
+
+        {% if items %}
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTable">
+                    {% for item in items %}
+                    <tr data-category="{{ item.category }}">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.description }}</td>
+                        <td><span class="badge bg-secondary">{{ item.category }}</span></td>
+                        <td>{{ item.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('edit_item', id=item.id) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ item.id }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Delete Confirmation Modal -->
+                            <div class="modal fade" id="deleteModal{{ item.id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark text-light border-secondary">
+                                        <div class="modal-header border-secondary">
+                                            <h5 class="modal-title">Confirm Deletion</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete <strong>{{ item.name }}</strong>?
+                                        </div>
+                                        <div class="modal-footer border-secondary">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form action="{{ url_for('delete_item', id=item.id) }}" method="post">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> No items found in the database. 
+            <a href="{{ url_for('add_item') }}" class="alert-link">Add your first item</a>.
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortOrder = document.getElementById('sortOrder');
+        const itemsTable = document.getElementById('itemsTable');
+        
+        function filterAndSortItems() {
+            const rows = Array.from(itemsTable.getElementsByTagName('tr'));
+            const searchTerm = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            
+            rows.forEach(row => {
+                const name = row.cells[1].textContent.toLowerCase();
+                const description = row.cells[2].textContent.toLowerCase();
+                const rowCategory = row.dataset.category;
+                
+                const matchesSearch = name.includes(searchTerm) || description.includes(searchTerm);
+                const matchesCategory = !category || rowCategory === category;
+                
+                row.style.display = (matchesSearch && matchesCategory) ? '' : 'none';
+            });
+            
+            sortItems();
+        }
+        
+        function sortItems() {
+            const rows = Array.from(itemsTable.getElementsByTagName('tr')).filter(row => row.style.display !== 'none');
+            const sortType = sortOrder.value;
+            
+            rows.sort((a, b) => {
+                if (sortType === 'name_asc') {
+                    return a.cells[1].textContent.localeCompare(b.cells[1].textContent);
+                } else if (sortType === 'name_desc') {
+                    return b.cells[1].textContent.localeCompare(a.cells[1].textContent);
+                } else if (sortType === 'date_asc') {
+                    return new Date(a.cells[4].textContent) - new Date(b.cells[4].textContent);
+                } else if (sortType === 'date_desc') {
+                    return new Date(b.cells[4].textContent) - new Date(a.cells[4].textContent);
+                }
+            });
+            
+            rows.forEach(row => itemsTable.appendChild(row));
+        }
+        
+        searchInput.addEventListener('input', filterAndSortItems);
+        categoryFilter.addEventListener('change', filterAndSortItems);
+        sortOrder.addEventListener('change', filterAndSortItems);
+    });
+</script>
+{% endblock %}
