@@ -35,3 +35,13 @@ Also many of hte projects I've attempt are here as well, and are listed below.
 - Providing as much context as possible in structured formats is VERY helpful for the AI models (write a prompt in notepad first)
 - Doing it in steps instead of all at once greatly increases chance of success (implement A, then implement B, then C, then D, ...)
 - Asking AI to refine your prompts is a great way to expand and edit your prompt
+
+# Repository Fast Links
+
+1. Web Calculator: [README.md](web_calculator/README.md)
+2. Web Database Panel: [README.md](web_database_panel/README.md)
+3. Web View Safetensor File: [README.md](web_view_safetensor_model/README.md)
+4. Custom MCP Tools: [README.md](custom_mcp_tools/README.md)
+5. Next Frame Predict: [README.md](next_frame_predict/README.md)
+6. Lightning Image Diffusion: [README.md](lightning_image_diffusion/README.md)
+7. WaldoAI: [README.md](waldoai/README.md)
