@@ -16,12 +16,12 @@ Utilizing Windsurf, AUGMENT, Co Pilot, chat.openai.com and grok.com to code thes
 ### Medium Prototype Examples
 
 1. **Custom MCP Tools**: Custom MCP tools that AI models (agentic ones) can utilize when doing queries. Implemented using a Python library and includes the following tools:
-	CONTEXT:
+	a. CONTEXT:
 		i. Create and manage 'memories'
 		ii. Create and manage 'context'
 		iii. Create and manage 'tasks'
 		iv. Create and manage 'milestones'
-	DEEP THINK:
+	b. DEEP THINK:
 		i. 'deep think' about implementing a algorithm
 		ii. 'deep think' about code generation
 		iii. 'fast think' about code generation
@@ -29,22 +29,22 @@ Utilizing Windsurf, AUGMENT, Co Pilot, chat.openai.com and grok.com to code thes
 		v. 'deep think' about code security analysis
 		vi. 'deep think' about system design
 		vii. 'deep think' about goal-to-start implementation
-	DOCUMENTS:
+	c. DOCUMENTS:
 		i. Query the document database and search for related text to the query
 		ii. Index a directory of documents and make them searchable
-	MISC:
+	d. MISC:
 		i. Get the current time
-	SPECIAL:
+	e. SPECIAL:
 		i. Transcribe audio
 		ii. Transcribe video
-	THINK:
+	f. THINK:
 		i. 'think' problem solving
 		ii. 'think' problem decomposition
 		iii. 'think' tool selection
 		iv. 'think' solution reflection
 		v. 'think' api design
 		vi. 'think' trade off thinking
-	WEB SEARCH:
+	g. WEB SEARCH:
 		i. download webpage (given url)
 		ii. search google
 		iii. search wikipedia
