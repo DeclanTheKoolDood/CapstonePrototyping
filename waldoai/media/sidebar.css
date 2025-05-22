@@ -1,0 +1,362 @@
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-color: var(--vscode-sideBar-background);
+}
+
+body {
+  background-color: var(--vscode-sideBar-background);
+  color: #ffffff;
+}
+
+/* Make all text white */
+.sidebar-container,
+.sidebar-container button,
+.sidebar-container textarea,
+.sidebar-container input,
+.sidebar-container div,
+.sidebar-container p,
+.sidebar-container h3,
+.sidebar-container span {
+  color: #ffffff;
+}
+
+.agent-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-sideBarSectionHeader-background);
+}
+
+.history-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background-color: var(--vscode-sideBarSectionHeader-background);
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.history-dropdown {
+  flex: 1;
+  padding: 4px 8px;
+  background-color: var(--vscode-dropdown-background);
+  color: var(--vscode-dropdown-foreground);
+  border: 1px solid var(--vscode-dropdown-border);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.history-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: 8px;
+}
+
+.history-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  background-color: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  padding: 0;
+}
+
+.history-button:hover {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.config-button {
+  width: auto;
+  padding: 6px;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.config-button:hover {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.config-icon {
+  font-size: 16px;
+}
+
+.agent-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--vscode-sideBarTitle-foreground);
+  width: auto;
+}
+
+.agent-icon {
+  font-size: 18px;
+}
+
+.conversation-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.welcome-message {
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: var(--vscode-sideBarSectionHeader-background);
+  color: var(--vscode-button-foreground);
+  border-radius: 6px;
+  border: 1px solid var(--vscode-sideBarSectionHeader-border);
+}
+
+.welcome-message h3 {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.message {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  max-width: 85%;
+}
+
+.user-message {
+  align-self: flex-end;
+  margin-left: auto;
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: 1px solid var(--vscode-button-border, transparent);
+}
+
+.ai-message {
+  align-self: flex-start;
+  background-color: var(--vscode-sideBarSectionHeader-background);
+  border: 1px solid var(--vscode-sideBarSectionHeader-border);
+  color: var(--vscode-button-foreground);
+}
+
+.ai-tool {
+  align-self: flex-start;
+  background-color: var(--vscode-sideBarSectionHeader-background);
+  border: 1px solid var(--vscode-sideBarSectionHeader-border);
+  color: var(--vscode-button-secondaryForeground);
+}
+
+.message-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-top: 1px solid var(--vscode-panel-border);
+  gap: 8px;
+  background-color: var(--vscode-sideBar-background);
+}
+
+.input-labels {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.input-label-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 0;
+  flex: 1;
+  flex-basis: calc(33% - 4px);
+  white-space: nowrap;
+  margin-bottom: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.input-label-button:hover {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.input-label-active {
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  font-weight: 500;
+}
+
+.input-label-active:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.input-label-icon {
+  font-size: 12px;
+  margin-right: 2px;
+}
+
+.input-label-text {
+  font-size: 10px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.input-label-static {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: #a6b338; /* Yellow color */
+  color: #000000; /* Black text for better contrast on yellow */
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: none;
+  min-width: 0;
+  flex: 1;
+  flex-basis: calc(33% - 4px);
+  white-space: nowrap;
+  margin-bottom: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.input-label-static:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  background-color: #ffc800; /* Brighter yellow on hover */
+}
+
+#message-input {
+  width: 100%;
+  resize: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  max-height: 120px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.send-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 50%;
+  margin: 0 auto;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.send-icon {
+  font-weight: bold;
+}
+
+.mode-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-top: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-sideBar-background);
+}
+
+.mode-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.mcp-tools-label {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+  margin-left: 2px;
+}
+
+#mcp-tools-count {
+  font-weight: bold;
+}
+
+.mode-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: auto;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.mode-button:hover {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.mode-button-active {
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.mode-button-active:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.mode-icon {
+  font-size: 14px;
+}
+
+.attachment-button {
+  width: auto;
+  padding: 6px 10px;
+  background-color: #2b579a;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.attachment-button:hover {
+  background-color: #3a6db5;
+}
+
+.attachment-icon {
+  font-size: 16px;
+}

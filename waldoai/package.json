@@ -1,0 +1,361 @@
+{
+  "name": "waldoai",
+  "displayName": "WaldoAI",
+  "description": "AI Companion that you can code and chat with.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Programming Languages",
+    "Snippets"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "waldoai.startChat",
+        "title": "Waldo: Start Chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "waldoai.clearChat",
+        "title": "Waldo: Clear Chat",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "waldoai.openGlobalRules",
+        "title": "Waldo: Open Global Rules",
+        "icon": "$(book)"
+      },
+      {
+        "command": "waldoai.openLocalRules",
+        "title": "Waldo: Open Local Rules",
+        "icon": "$(book)"
+      },
+      {
+        "command": "waldoai.openGlobalMemories",
+        "title": "Waldo: Open Global Memories",
+        "icon": "$(database)"
+      },
+      {
+        "command": "waldoai.openLocalMemories",
+        "title": "Waldo: Open Local Memories",
+        "icon": "$(database)"
+      },
+      {
+        "command": "waldoai.keybindTestOllama",
+        "title": "Waldo: Ollama Test",
+        "icon": "$(database)"
+      },
+      {
+        "command": "waldoai.keybindTestOllamaStream",
+        "title": "Waldo: Ollama Stream Test",
+        "icon": "$(database)"
+      },
+      {
+        "command": "waldoai.keybindTestTools",
+        "title": "Waldo: Tools Test",
+        "icon": "$(database)"
+      },
+      {
+        "command": "waldoai.keybindTestMCP",
+        "title": "Waldo: MCP Test",
+        "icon": "$(database)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "waldoai-sidebar",
+          "title": "Waldo AI",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "views": {
+      "waldoai-sidebar": [
+        {
+          "type": "webview",
+          "id": "waldoai.sidebar",
+          "name": "Chat",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "waldoai.clearChat",
+          "when": "view == waldoai.sidebar",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": [
+      {
+        "title": "Waldo AI",
+        "properties": {
+          "waldoai.provider": {
+            "type": "string",
+            "enum": [
+              "openai",
+              "ollama"
+            ],
+            "enumDescriptions": [
+              "Use OpenAI API for model inference",
+              "Use Ollama for local model inference"
+            ],
+            "default": "openai",
+            "description": "AI provider to use for model inference"
+          },
+          "waldoai.timeout.request": {
+            "type": "number",
+            "default": 60000,
+            "description": "Timeout for API requests in milliseconds"
+          },
+          "waldoai.timeout.stream": {
+            "title": "Stream Timeout",
+            "type": "number",
+            "default": 300000,
+            "description": "Timeout for streaming responses in milliseconds"
+          },
+          "waldoai.whitelisted_cmds": {
+            "type": "string",
+            "default": "[\"dir\", \"ls\"]",
+            "description": "[CAUTION] JSON array of allowed commands the AI can run automatically. You can specify arguments as well after the command for particular sets of arguments.",
+            "editPresentation": "multilineText"
+          },
+          "waldoai.ai.open_edited_files": {
+            "type": "boolean",
+            "default": true,
+            "description": "Automatically open files that have been edited by the AI."
+          },
+          "waldoai.ai.auto_index_projects": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable or disable the automatic (embedding) indexing of projects."
+          },
+          "waldoai.ai.automatic_document_indexing": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable or disable the ability for the AI to automatically index documents. If disabled, you must pass it into the chat for it to index. The AI will determine itself whether its necessary."
+          },
+          "waldoai.ai.auto_open_widget": {
+            "type": "boolean",
+            "default": true,
+            "description": "Automatically open the AI widget when VSCode starts."
+          },
+          "waldoai.ai.allow_arbitrary_cmds": {
+            "type": "boolean",
+            "default": false,
+            "description": "Allow the AI to automatically run any command."
+          }
+        }
+      },
+      {
+        "title": "Waldo AI: MCP Servers",
+        "properties": {
+          "waldoai.mcpServersSSE": {
+            "type": "string",
+            "default": "[\n  {\n    \"enabled\": false,\n    \"name\": \"Default SSE\",\n    \"url\": \"http://localhost:8000\",\n    \"apiKey\": \"\",\n    \"headers\": {},\n    \"cookies\": {}\n  }\n]",
+            "description": "JSON array of sse MCP server configurations.",
+            "editPresentation": "multilineText"
+          },
+          "waldoai.mcpServersSTDIO": {
+            "type": "string",
+            "default": "[\n  {\n    \"enabled\" : false,\n    \"name\" : \"Default stdio\",\n    \"command\" : \"npx\",\n    \"args\": [\"-y\", \"@modelcontextprotocol/server-memory\"],\n    \"env\" : {}\n  }\n]",
+            "description": "JSON array of stdio MCP server configurations.",
+            "editPresentation": "multilineText"
+          }
+        }
+      },
+      {
+        "title": "Waldo AI: OpenAI",
+        "properties": {
+          "waldoai.openai.apiKey": {
+            "type": "string",
+            "default": "",
+            "description": "API key for OpenAI"
+          },
+          "waldoai.openai.baseUrl": {
+            "type": "string",
+            "default": "https://api.openai.com/v1",
+            "description": "Base URL for OpenAI API (can be changed for compatible APIs)"
+          },
+          "waldoai.openai.models.plan": {
+            "type": "string",
+            "default": "o4-mini",
+            "description": "OpenAI model to use for planning activities"
+          },
+          "waldoai.openai.models.think": {
+            "type": "string",
+            "default": "o4-mini",
+            "description": "OpenAI model to use for thinking activities"
+          },
+          "waldoai.openai.models.code": {
+            "type": "string",
+            "default": "o4-mini",
+            "description": "OpenAI model to use for coding activities"
+          }
+        }
+      },
+      {
+        "title": "Waldo AI: Ollama",
+        "properties": {
+          "waldoai.ollama.url": {
+            "type": "string",
+            "default": "http://localhost:11434",
+            "description": "URL for Ollama server"
+          },
+          "waldoai.ollama.models.plan": {
+            "type": "string",
+            "default": "qwen3:8b",
+            "description": "Ollama model to use for planning activities"
+          },
+          "waldoai.ollama.models.think": {
+            "type": "string",
+            "default": "qwen3:8b",
+            "description": "Ollama model to use for thinking activities"
+          },
+          "waldoai.ollama.models.code": {
+            "type": "string",
+            "default": "qwen3:8b",
+            "description": "Ollama model to use for coding activities"
+          }
+        }
+      },
+      {
+        "title": "Waldo AI: Configuration Files",
+        "properties": {
+          "waldoai.configFiles.globalRules": {
+            "type": "object",
+            "default": {
+              "openButton": true
+            },
+            "description": "Global rules configuration",
+            "properties": {
+              "openButton": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show button to open global rules"
+              }
+            },
+            "order": 1
+          },
+          "waldoai.configFiles.globalRulesButton": {
+            "type": "boolean",
+            "default": true,
+            "description": "Open Global Rules",
+            "deprecationMessage": "Click to open global rules file",
+            "markdownDescription": "[Open Global Rules](command:waldoai.openGlobalRules)",
+            "order": 2
+          },
+          "waldoai.configFiles.localRules": {
+            "type": "object",
+            "default": {
+              "openButton": true
+            },
+            "description": "Local rules configuration",
+            "properties": {
+              "openButton": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show button to open local rules"
+              }
+            },
+            "order": 3
+          },
+          "waldoai.configFiles.localRulesButton": {
+            "type": "boolean",
+            "default": true,
+            "description": "Open Local Rules",
+            "deprecationMessage": "Click to open local rules file",
+            "markdownDescription": "[Open Local Rules](command:waldoai.openLocalRules)",
+            "order": 4
+          },
+          "waldoai.configFiles.globalMemories": {
+            "type": "object",
+            "default": {
+              "openButton": true
+            },
+            "description": "Global memories configuration",
+            "properties": {
+              "openButton": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show button to open global memories"
+              }
+            },
+            "order": 5
+          },
+          "waldoai.configFiles.globalMemoriesButton": {
+            "type": "boolean",
+            "default": true,
+            "description": "Open Global Memories",
+            "deprecationMessage": "Click to open global memories file",
+            "markdownDescription": "[Open Global Memories](command:waldoai.openGlobalMemories)",
+            "order": 6
+          },
+          "waldoai.configFiles.localMemories": {
+            "type": "object",
+            "default": {
+              "openButton": true
+            },
+            "description": "Local memories configuration",
+            "properties": {
+              "openButton": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show button to open local memories"
+              }
+            },
+            "order": 7
+          },
+          "waldoai.configFiles.localMemoriesButton": {
+            "type": "boolean",
+            "default": true,
+            "description": "Open Local Memories",
+            "deprecationMessage": "Click to open local memories file",
+            "markdownDescription": "[Open Local Memories](command:waldoai.openLocalMemories)",
+            "order": 8
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "@types/vscode": "^1.100.0",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.3.43",
+    "@langchain/core": "^0.3.56",
+    "@langchain/langgraph": "^0.2.72",
+    "@langchain/mcp-adapters": "^0.4.5",
+    "@langchain/ollama": "^0.2.0",
+    "@langchain/openai": "^0.5.10",
+    "langchain": "^0.3.26",
+    "ollama": "^0.5.15"
+  }
+}
