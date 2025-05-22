@@ -7,12 +7,54 @@ Utilizing Windsurf, AUGMENT, Co Pilot, chat.openai.com and grok.com to code thes
 
 # Projects
 
-- Web Calculator: simple web-based calculator using Flask.
-- Web Database Panel: simple web-based sqlite database editor using Flask.
-- Web Safetensor Model Viewer: simple web-based graph nodes visualizer for safetensor nn.Modules using Flask.
-- Custom MCP Tools: Array of custom MCP tools using SSE (url-based) connections.
-- Next Frame Predict: Attempt to re-implement the next-frame-prediction video diffusion model architecture - could not test thoroughly but forward pass succeeded.
-- Lightning Image Diffusion: Attempt to implement a Image Diffusion model of high technicality - could not test thoroughly but forward pass succeeded.
+### Smaller Prototype Examples
+
+1. **Web Calculator**: This was a simple Python flask application to implement a web calculator.
+2. **Web Database Panel**: This was a simple Python flask application to implement a web-based sqlite database editor, similar to a adminstrator database editor panel.
+3. **Web Safetensor Model Viewer**: This was a simple Flask web-based graph visualizer for safetensor nn.Modules. This viewed each layer of AI models.
+
+### Medium Prototype Examples
+
+1. **Custom MCP Tools**: Custom MCP tools that AI models (agentic ones) can utilize when doing queries. Implemented using a Python library and includes the following tools:
+	CONTEXT:
+		i. Create and manage 'memories'
+		ii. Create and manage 'context'
+		iii. Create and manage 'tasks'
+		iv. Create and manage 'milestones'
+	DEEP THINK:
+		i. 'deep think' about implementing a algorithm
+		ii. 'deep think' about code generation
+		iii. 'fast think' about code generation
+		iv. 'deep think' about code analysis and improvement
+		v. 'deep think' about code security analysis
+		vi. 'deep think' about system design
+		vii. 'deep think' about goal-to-start implementation
+	DOCUMENTS:
+		i. Query the document database and search for related text to the query
+		ii. Index a directory of documents and make them searchable
+	MISC:
+		i. Get the current time
+	SPECIAL:
+		i. Transcribe audio
+		ii. Transcribe video
+	THINK:
+		i. 'think' problem solving
+		ii. 'think' problem decomposition
+		iii. 'think' tool selection
+		iv. 'think' solution reflection
+		v. 'think' api design
+		vi. 'think' trade off thinking
+	WEB SEARCH:
+		i. download webpage (given url)
+		ii. search google
+		iii. search wikipedia
+		iv. search research papers (various sources)
+		v. search github repositories
+
+### Large Prototype Examples
+
+- **Next Frame Predict**: Attempt to re-implement the next-frame-prediction video diffusion model architecture from a research paper - could not test thoroughly but forward pass succeeded.
+- **Lightning Image Diffusion**: Attempt to implement a Image Diffusion model of high technicality - could not test thoroughly but forward pass succeeded.
 
 # Notes
 
