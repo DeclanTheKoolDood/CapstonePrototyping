@@ -9,8 +9,8 @@ Additional notes can be found inside each projects' README files.
 
 My primarily goal for the company was to understand the technical capabilities of the tools, I focused more on technical implementations that provides helpful information in terms of the capabilities of the AI tools when trying to implement advanced systems.
 I focused on AI-related systems, using AI to create AI, which demonstrates the understanding these tools have.
-I also provided prompting ideas, techniques, etc in the Markdown files that I have provided in this repository.
-Also many of hte projects I've attempt are here as well, and are listed below.
+I also provide prompting ideas, techniques, additional notes, etc, within the individual project README files that I have provided in this repository.
+Most of the projects I've made are as listed below:
 
 # Projects
 
