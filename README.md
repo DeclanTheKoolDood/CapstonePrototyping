@@ -3,6 +3,8 @@
 
 Utilizing Windsurf, AUGMENT, Co Pilot, chat.openai.com and grok.com to code these projects or part of them.
 
+Additional notes can be found inside each projects' readme files.
+
 - Declan Heenan
 
 # Projects
@@ -15,48 +17,58 @@ Utilizing Windsurf, AUGMENT, Co Pilot, chat.openai.com and grok.com to code thes
 
 ### Medium Prototype Examples
 
-1. **Custom MCP Tools**: Custom MCP tools that AI models (agentic ones) can utilize when doing queries. Implemented using a Python library and includes the following tools:
-	a. CONTEXT:
-		i. Create and manage 'memories'
-		ii. Create and manage 'context'
-		iii. Create and manage 'tasks'
-		iv. Create and manage 'milestones'
-	b. DEEP THINK:
-		i. 'deep think' about implementing a algorithm
-		ii. 'deep think' about code generation
-		iii. 'fast think' about code generation
-		iv. 'deep think' about code analysis and improvement
-		v. 'deep think' about code security analysis
-		vi. 'deep think' about system design
-		vii. 'deep think' about goal-to-start implementation
-	c. DOCUMENTS:
-		i. Query the document database and search for related text to the query
-		ii. Index a directory of documents and make them searchable
-	d. MISC:
-		i. Get the current time
-	e. SPECIAL:
-		i. Transcribe audio
-		ii. Transcribe video
-	f. THINK:
-		i. 'think' problem solving
-		ii. 'think' problem decomposition
-		iii. 'think' tool selection
-		iv. 'think' solution reflection
-		v. 'think' api design
-		vi. 'think' trade off thinking
-	g. WEB SEARCH:
-		i. download webpage (given url)
-		ii. search google
-		iii. search wikipedia
-		iv. search research papers (various sources)
-		v. search github repositories
+#### 1. **Custom MCP Tools**
+
+Custom MCP tools that AI models (agentic ones) can utilize when doing queries.
+Implemented using a Python library and includes the following tools:
+
+#### a. **CONTEXT**
+- Create and manage **memories**
+- Create and manage **context**
+- Create and manage **tasks**
+- Create and manage **milestones**
+
+#### b. **DEEP THINK**
+- "Deep think" about implementing an algorithm
+- "Deep think" about code generation
+- "Fast think" about code generation
+- "Deep think" about code analysis and improvement
+- "Deep think" about code security analysis
+- "Deep think" about system design
+- "Deep think" about goal-to-start implementation
+
+#### c. **DOCUMENTS**
+- Query the document database and search for related text to the query
+- Index a directory of documents and make them searchable
+
+#### d. **MISC**
+- Get the current time
+
+#### e. **SPECIAL**
+- Transcribe audio
+- Transcribe video
+
+#### f. **THINK**
+- "Think" problem solving
+- "Think" problem decomposition
+- "Think" tool selection
+- "Think" solution reflection
+- "Think" API design
+- "Think" trade-off thinking
+
+#### g. **WEB SEARCH**
+- Download webpage (given URL)
+- Search Google
+- Search Wikipedia
+- Search research papers (various sources)
+- Search GitHub repositories
 
 ### Large Prototype Examples
 
 - **Next Frame Predict**: Attempt to re-implement the next-frame-prediction video diffusion model architecture from a research paper - could not test thoroughly but forward pass succeeded.
 - **Lightning Image Diffusion**: Attempt to implement a Image Diffusion model of high technicality - could not test thoroughly but forward pass succeeded.
 
-# Notes
+# Context Notes
 
 I found that, especially with technical projects, creating context for the project is essential to get good outputs.
 
