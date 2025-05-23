@@ -178,13 +178,3 @@ async def text_to_speech(ctx : Context, text : str, selected_speaker : TTS_SPEAK
 # 1. Storyboarding Tool - Sequence images, audio, text to plan scenes or pitches.
 # 2. Math Solver/Symbolic Math Tool - Solves equations symbolically and numerically (like Wolfram Alpha or SymPy or SageMath).
 # 3. Logic/Reasoning Engine - Evaluate formal logic statements, propositional logic, first-order logic, etc.
-
-### TODO: Information Technology Tools
-# 1. Hacking Tools (Port Scanner, SQL Injection, XSS, CSRF, etc.): Scan for vulnerabilities, test endpoints.
-# 2. Network Sniffer Tool: Monitor live traffic, filter, analyze headers.
-# 3. Encryption/Decryption Tool: Encrypt/decrypt strings/files with passphrases.
-# 4. CI/CD Runner Tool: Trigger builds, view logs, deploy code.
-# 5. Docker Tool: Launch containers, build images, manage volumes and networks.
-# 6. Database Tool: Connect to SQL/SQLite/NoSQL DBs, query, visualize schemas, export/import data.
-# 7. Log Monitor Tool: Start live streaming log files with regex filters and alerts - add to buffer - another tool to read the buffer
-# 8. File/Directory Monitor Tool: Monitor file changes, log events, trigger actions.

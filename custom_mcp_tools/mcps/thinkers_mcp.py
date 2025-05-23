@@ -1,8 +1,6 @@
 
-from typing import List
 from fastmcp import FastMCP, Context
 
-import os
 import ollama
 
 def split_by_think(text : str) -> str:
@@ -123,7 +121,7 @@ async def solution_reflection_think(ctx : Context, solution: str) -> str:
 	)
 	return response.response
 
-### TODO: API Design Think
+### API Design Think
 # - Identify use cases of the API
 # - Define interface features
 # - Design for extensibility
@@ -156,7 +154,7 @@ async def api_design_thinking(ctx : Context, prompt : str) -> str:
 	)
 	return response.response
 
-### TODO: Trade-off Think
+### Trade-off Think
 # - Identify competing concerns (time, space, simplicity, flexibility)
 # - Evaluate short-term vs. long-term implications
 # - Consider maintenance vs. performance

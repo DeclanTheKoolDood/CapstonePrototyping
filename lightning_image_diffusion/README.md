@@ -10,6 +10,27 @@
 - tools used
 - prompt tips and tricks
 
+## Lightning Image Diffusion
+
+Lightning image diffusion is an experimental model mostly made by AI to test the agentic capabilities of AUGMENT and Co-Pilot in creating an AI model with specified features.
+It produced this code in a step-by-step nature, listed in the *Prompting Tips and Tricks* section and successfully had a forward pass.
+The model is NOT trained due to a lack of dataset and up-to-date training methods as this model used a simplified trainer.
+
+## Prompting Tips and Tricks
+
+These steps are essentially the same for the next_frame_predict model.
+
+#### **Context Creation**
+This one is similar to other medium and larger projects where creating context is incredibly important.
+I listed all the features I wanted the model to have, like "tiled image encoding with positional encoding and overlap", "low memory usage", "fast convergence", "fast performance", etc.
+I also asked questions like "how can I make this model converge faster?", "how can I train this at incredible speeds", etc.
+I took down a dot point list of all these features, ideas and concepts, then got the AI to format it and provide concise descriptions.
+
+#### **Step-By-Step Implementation**
+I got the agentic coder to implement the model step-by-step, focusing on individual components before combining them together.
+I got it to make the AI model individual layers first, things like the text encoder, the VAE (which encodes images to a compressed "latent"), and individual model layers like the VAE tiling.
+I got the AI to put together the actual model, the diffusion model architecture, with all the individual layers that were made and additional layers that are common with the diffusion architecture.
+I then did the dataset loader, the trainer code, and testing one forward pass with an image and fixed any issues with that. The forward pass essentially marks the model as "testable" and "trainable" as images can be fully passed through the model.
 
 # Context Notes
 

@@ -13,6 +13,22 @@ Next Scale Prediction is a progressive image generation model that generates hig
 7. **SDXL VAE Integration**: Uses SDXL1.0 VAE for high-quality image encoding/decoding
 8. **Mixed Precision Support**: Consistent dtype handling for both float32 and float16 inputs
 
+## Prompting Tips and Tricks
+
+These steps are essentially the same for the lightning_image_diffusion model.
+
+#### **Context Creation**
+This one is similar to other medium and larger projects where creating context is incredibly important.
+I listed all the features I wanted the model to have, like "tiled image encoding with positional encoding and overlap", "low memory usage", "fast convergence", "fast performance", etc.
+I also asked questions like "how can I make this model converge faster?", "how can I train this at incredible speeds", etc.
+I took down a dot point list of all these features, ideas and concepts, then got the AI to format it and provide concise descriptions.
+
+#### **Step-By-Step Implementation**
+I got the agentic coder to implement the model step-by-step, focusing on individual components before combining them together.
+I got it to make the AI model individual layers first, things like the text encoder, the VAE (which encodes images to a compressed "latent"), and individual model layers like the VAE tiling.
+I got the AI to put together the actual model, the diffusion model architecture, with all the individual layers that were made and additional layers that are common with the diffusion architecture.
+I then did the dataset loader, the trainer code, and testing one forward pass with an image and fixed any issues with that. The forward pass essentially marks the model as "testable" and "trainable" as images can be fully passed through the model.
+
 ## Installation
 
 ```bash
@@ -84,7 +100,3 @@ python train_example.py --data_dir path/to/images --progressive --num_epochs_per
 - `--fp16`: Use mixed precision training (flag)
 - `--device`: Device to run training on (default: "cuda" if available, else "cpu")
 - `--num_workers`: Number of workers for data loading (default: 4)
-
-## License
-
-MIT License
